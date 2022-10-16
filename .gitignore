@@ -1,0 +1,9 @@
+*.class
+*.log
+
+.metals
+.vscode
+.metals/*
+.vscode/*
+
+hs_err_pid*

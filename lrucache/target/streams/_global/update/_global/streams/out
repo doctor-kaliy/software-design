@@ -1,7 +1,3 @@
 [debug] not up to date. inChanged = true, force = false
 [debug] Updating ...
-[warn] 
-[warn] 	Note: Some unresolved dependencies have extra attributes.  Check that these dependencies exist with the requested attributes.
-[warn] 		org.scalameta:sbt-scalafmt:2.4.6 (sbtVersion=1.0, scalaVersion=2.13)
-[warn] 
-[warn] 	Note: Unresolved dependencies path:
+[debug] Done updating 

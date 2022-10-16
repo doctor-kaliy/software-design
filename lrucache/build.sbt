@@ -7,4 +7,3 @@ lazy val root = (project in file(".")).
   )
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")

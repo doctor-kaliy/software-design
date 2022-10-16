@@ -27,7 +27,7 @@ final class LRUCacheTest extends AnyFlatSpec with Matchers {
       capacity = 10
     )(cache => cache.get(1) shouldBe None)
 
-  "Cache" should "replace last recently used key" in
+  "Cache" should "remove last recently used key" in
     testCache[Int, Int](
       capacity = 3
     ) { cache =>
