@@ -99,10 +99,6 @@ public class ServerTest {
     @BeforeClass
     public static void beforeAll() throws InterruptedException, SQLException {
         connection = DriverManager.getConnection(TEST_DB);
-        String sql = "DROP TABLE IF EXISTS PRODUCT";
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate(sql);
-        stmt.close();
         executorService.submit(() -> {
             try {
                 Main.main(new String[0]);
