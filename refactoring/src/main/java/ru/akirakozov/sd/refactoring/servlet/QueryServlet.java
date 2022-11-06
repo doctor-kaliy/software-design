@@ -1,12 +1,13 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.db.ProductsDataBase;
-import ru.akirakozov.sd.refactoring.product.Product;
+import ru.akirakozov.sd.refactoring.utils.ResponseHtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author akirakozov
@@ -21,54 +22,33 @@ public class QueryServlet extends ProductsHttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String command = request.getParameter("command");
 
+        String responseBody = "";
         if ("max".equals(command)) {
-            List<Product> maxProducts = dataBase.getMax();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("<h1>Product with max price: </h1>");
-
-            for (Product product : maxProducts) {
-                response.getWriter().println(product.getName() + "\t" + product.getPrice() + "</br>");
-            }
-
-            response.getWriter().println("</body></html>");
+            responseBody = ResponseHtmlUtils.htmlResponse(
+                    Optional.of("Product with max price: "),
+                    ResponseHtmlUtils.productsToHtml(dataBase.getMax()));
         } else if ("min".equals(command)) {
-            List<Product> minProducts = dataBase.getMin();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("<h1>Product with min price: </h1>");
-
-            for (Product product : minProducts) {
-                response.getWriter().println(product.getName() + "\t" + product.getPrice() + "</br>");
-            }
-
-            response.getWriter().println("</body></html>");
+            responseBody = ResponseHtmlUtils.htmlResponse(
+                    Optional.of("Product with min price: "),
+                    ResponseHtmlUtils.productsToHtml(dataBase.getMin()));
         } else if ("sum".equals(command)) {
-           List<Integer> sum = dataBase.getSum();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("Summary price: ");
-
-            if (!sum.isEmpty()) {
-                response.getWriter().println(sum.get(0));
-            }
-
-            response.getWriter().println("</body></html>");
+            responseBody = ResponseHtmlUtils.htmlResponse(
+                    Optional.empty(),
+                    "Summary price: \n" +
+                            dataBase.getSum()
+                                    .stream()
+                                    .map(sum -> Integer.toString(sum))
+                                    .collect(Collectors.joining("")));
         } else if ("count".equals(command)) {
-            List<Integer> count = dataBase.getCount();
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("Number of products: ");
-
-            if (!count.isEmpty()) {
-                response.getWriter().println(count.get(0));
-            }
-
-            response.getWriter().println("</body></html>");
+            responseBody = ResponseHtmlUtils.htmlResponse(
+                    Optional.empty(),
+                    "Number of products: \n" +
+                            dataBase.getCount()
+                                    .stream()
+                                    .map(count -> Integer.toString(count))
+                                    .collect(Collectors.joining("")));
         }
-
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
+        ResponseHtmlUtils.writeResponse(response, responseBody);
     }
 
 }

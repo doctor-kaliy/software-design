@@ -1,6 +1,7 @@
 package ru.akirakozov.sd.refactoring.servlet;
 
 import ru.akirakozov.sd.refactoring.db.ProductsDataBase;
+import ru.akirakozov.sd.refactoring.utils.ResponseHtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +20,7 @@ public class AddProductServlet extends ProductsHttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
         int price = Integer.parseInt(request.getParameter("price"));
-
         dataBase.addProduct(name, price);
-
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("OK");
+        ResponseHtmlUtils.writeResponse(response, "OK");
     }
 }
