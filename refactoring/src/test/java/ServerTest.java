@@ -1,5 +1,6 @@
 import org.junit.*;
-import ru.akirakozov.sd.refactoring.Main;
+import ru.akirakozov.sd.refactoring.db.ProductsDataBase;
+import ru.akirakozov.sd.refactoring.utils.ServerUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -101,7 +102,7 @@ public class ServerTest {
         connection = DriverManager.getConnection(TEST_DB);
         executorService.submit(() -> {
             try {
-                Main.main(new String[0]);
+                ServerUtils.setupServer(new ProductsDataBase(TEST_DB));
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
